@@ -17,19 +17,34 @@ const users = [
   }
 ]
 
-// GET: http://localhost:3333/users => retornar uma lista de usuarios.
-// GET: http://localhost:3333/users/1 => retornar um de usuario com id = 1.
+// GET: .../users => retorna uma lista de users.
+// GET: .../users/filter?nome=rafael => retorna users com nome rafael.
+// GET: .../users/1 => retorna users[1].
 
 // retorna a lista de usuarios completa
 app.get('/users', (request, response) => {
   return response.json(users)
 })
 
-// :id em '/users/:id' é o parametro da rota chamado.
-// request.params.id usado para acessar os parametros da rota, id neste caso.
+// Espera um query param chamado nome.
+// request.query usado para acessar query params, nome neste caso.
+// Função filter do javascript filtra os users com nome rafael.
+// .../users/filter?nome=rafael => users[0].
+app.get('/users/filter', (request, response) => {
+  if (request.query.nome) {
+    var filtered = users.filter(user => user.nome == request.query.nome)
+    return filtered.length != 0 ?
+      response.json(filtered) :
+      response.json(`No users were found with the name '${request.query.nome}'`)
+  }
+  return response.json('No QueryParam found!')
+})
+
+// :id em '/users/:id' é o parametro da rota chamado id.
+// request.params usado para acessar os parametros da rota, id neste caso.
 // id é recebido como uma string '1' ou '2' etc.
 // id é usado como indice do array por isso é convertido em numero.
-// localhost:3333/0 retorna {name: 'rafael', email: 'rafael@email.com.br'}
+// localhost:3333/0 => users[0]
 app.get('/users/:id', (request, response) => {
   var id = Number(request.params.id)
   return response.json(users[id])
