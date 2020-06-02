@@ -1,6 +1,7 @@
 import express from 'express'
 
 const app = express()
+app.use(express.json())  // express passa a entender RequestBody em formato JSON
 
 const users = [
   {
@@ -20,6 +21,7 @@ const users = [
 // GET: .../users => retorna uma lista de users.
 // GET: .../users/filter?nome=rafael => retorna users com nome rafael.
 // GET: .../users/1 => retorna users[1].
+// POST:.../users/ com body={nome:'user', email:'user@email.com} => adiciona user a users.
 
 // retorna a lista de usuarios completa
 app.get('/users', (request, response) => {
@@ -48,6 +50,14 @@ app.get('/users/filter', (request, response) => {
 app.get('/users/:id', (request, response) => {
   var id = Number(request.params.id)
   return response.json(users[id])
+})
+
+// Espera um objeto JSON no request body com o seguinte formato:
+// {nome: 'user', email: 'user@email.com.br'}
+// Adiciona o novo objeto no array users com o push do javascript.
+app.post('/users', (request, response) => {
+  users.push({ nome: request.body.nome, email: request.body.email })
+  return response.json(users)
 })
 
 app.listen(3333, () => { console.log('🚀 !backend iniciado! 🚀') })
