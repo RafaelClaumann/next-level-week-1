@@ -43,6 +43,22 @@ class PointsController {
       return response.json(error)
     }
   }
+
+  async show(request: Request, response: Response) {
+    const { id } = request.params
+    const point = await connection('points').where('id', id).first()
+
+    if (!point) {
+      return response.status(400).json({ message: 'point not found' })
+    }
+
+    const items = await connection('items')
+      .join('point_item', 'items.id', '=', 'point_item.item_id')
+      .where('point_item.point_id', '=', id)
+      .select('items.title')
+
+    return response.json({ point, items })
+  }
 }
 
 export default PointsController
