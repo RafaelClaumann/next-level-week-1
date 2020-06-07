@@ -59,6 +59,20 @@ class PointsController {
 
     return response.json({ point, items })
   }
+
+  async index(request: Request, response: Response) {
+    const { city, uf, items } = request.query
+    const parsedItems = String(items).split(',').map(item => Number(item.trim()))
+
+    const points = await connection.raw(`
+      SELECT DISTINCT *
+      FROM points p
+      JOIN point_item pi ON p.id = pi.point_id
+      WHERE p.city = '${city}' AND p.uf = '${uf}' AND pi.item_id in (${parsedItems})`
+    )
+    
+    return response.json(points)
+  }
 }
 
 export default PointsController
