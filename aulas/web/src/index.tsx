@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HeaderExample from './HeaderExample';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HeaderExample nome='Rafael' sobrenome='Claumann' />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
