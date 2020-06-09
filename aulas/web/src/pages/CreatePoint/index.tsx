@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import './styles.css';
 import logo from '../../assets/logo.svg';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,7 @@ interface IBGEUFResponse {
 const CreatePoint = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
+  const [selectedUf, setSelectedUf] = useState('0');
 
   useEffect(() => {
     api.get('/items').then(response => {
@@ -33,6 +34,10 @@ const CreatePoint = () => {
         setUfs(response.data.map(uf => uf.sigla))
       })
   }, []);
+
+  function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
+    setSelectedUf(event.target.value);
+  }
 
   return (
     <div id="page-create-point">
@@ -99,7 +104,12 @@ const CreatePoint = () => {
           <div className="field-group">
             <div className="field">
               <label htmlFor="uf">Estado</label>
-              <select name="uf" id="uf">
+              <select
+                onChange={handleSelectUf}
+                value={selectedUf}
+                name="uf"
+                id="uf"
+              >
                 <option value="0">Selecione o estado</option>
                 {ufs.map(uf => (
                   <option key={uf} value={uf}>{uf}</option>
