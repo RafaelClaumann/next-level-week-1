@@ -30,6 +30,7 @@ const CreatePoint = () => {
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
   const [initialPosition, setinitialPosition] = useState<[number, number]>([0, 0]);
+  const [formData, setFormData] = useState({ name: '', email: '', whatsapp: '' });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -74,6 +75,11 @@ const CreatePoint = () => {
     setSelectedCity(event.target.value);
   }
 
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
   function handleMapClick(event: LeafletMouseEvent) {
     setSelectedPosition([event.latlng.lat, event.latlng.lng]);
   }
@@ -103,6 +109,7 @@ const CreatePoint = () => {
               type="text"
               name="name"
               id="name"
+              onChange={handleInputChange}
             />
           </div>
 
@@ -113,6 +120,7 @@ const CreatePoint = () => {
                 type="email"
                 name="email"
                 id="email"
+                onChange={handleInputChange}
               />
             </div>
             <div className="field">
@@ -121,6 +129,7 @@ const CreatePoint = () => {
                 type="text"
                 name="whatsapp"
                 id="whatsapp"
+                onChange={handleInputChange}
               />
             </div>
           </div>
