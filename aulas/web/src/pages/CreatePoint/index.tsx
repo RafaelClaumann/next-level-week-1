@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import './styles.css';
 import logo from '../../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi'
 import { Map, TileLayer, Marker } from 'react-leaflet';
 import api from '../../services/api';
@@ -32,6 +32,7 @@ const CreatePoint = () => {
   const [initialPosition, setinitialPosition] = useState<[number, number]>([0, 0]);
   const [formData, setFormData] = useState({ name: '', email: '', whatsapp: '' });
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -115,6 +116,8 @@ const CreatePoint = () => {
     }
 
     await api.post('points', data);
+    alert('Cadastro concluído com sucesso!')
+    history.push('/');
   }
 
   return (
