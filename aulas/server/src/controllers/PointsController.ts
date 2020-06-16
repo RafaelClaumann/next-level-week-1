@@ -15,7 +15,7 @@ class PointsController {
     } = request.body
 
     const point = {
-      image: 'image-fake',
+      image: request.file.filename,
       name,
       email,
       whatsapp,
@@ -29,12 +29,15 @@ class PointsController {
     try {
       const insertedIds = await trx('points').insert(point)
       const point_id = insertedIds[0]
-      const pointItems = items.map((item_id: number) => {
-        return {
-          item_id,
-          point_id
-        }
-      })
+      const pointItems = items
+        .split(',')
+        .map((item: string) => Number(item.trim()))
+        .map((item_id: number) => {
+          return {
+            item_id,
+            point_id
+          }
+        })
       await trx('point_item').insert(pointItems)
       await trx.commit()
       return response.json({ id: point_id, ...point })
@@ -52,12 +55,17 @@ class PointsController {
       return response.status(400).json({ message: 'point not found' })
     }
 
+    const serializedPoint = {
+      ...point,
+      image_url: `http://localhost:3333/uploads/${point.image}`
+    }
+
     const items = await connection('items')
       .join('point_item', 'items.id', '=', 'point_item.item_id')
       .where('point_item.point_id', '=', id)
       .select('items.title')
 
-    return response.json({ point, items })
+    return response.json({ point: serializedPoint, items })
   }
 
   async index(request: Request, response: Response) {
@@ -70,8 +78,13 @@ class PointsController {
       JOIN point_item pi ON p.id = pi.point_id
       WHERE p.city = '${city}' AND p.uf = '${uf}' AND pi.item_id in (${parsedItems})`
     )
-    
-    return response.json(points)
+    const serializedPoints = points.map((point: any) => {
+      return {
+        ...point,
+        image_url: `http://localhost:3333/uploads/${point.image}`
+      }
+    })
+    return response.json(serializedPoints)
   }
 }
 
