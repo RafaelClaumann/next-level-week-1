@@ -7,7 +7,7 @@ import { Map, TileLayer, Marker } from 'react-leaflet';
 import api from '../../services/api';
 import axios from 'axios';
 import { LeafletMouseEvent } from 'leaflet'
-import Dropzone from '../../components/DropZone'
+import Dropzone from '../../components/Dropzone'
 
 interface Item {
   id: number
@@ -34,6 +34,7 @@ const CreatePoint = () => {
   const [formData, setFormData] = useState({ name: '', email: '', whatsapp: '' });
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const history = useHistory();
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -134,7 +135,7 @@ const CreatePoint = () => {
       <form onSubmit={handleSubmit}>
         <h1>Cadastro do <br /> Ponto de Coleta</h1>
 
-        <Dropzone />
+        <Dropzone onFileUpload={setSelectedFile} />
 
         <fieldset>
           <legend>
