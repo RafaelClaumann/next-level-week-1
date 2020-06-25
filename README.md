@@ -48,8 +48,13 @@
   
   <p>filtrar entidades (city, uf, itens)(JSON):</p>
     <blockquote>
-      GET: localhost/port/points/id<br>
+      GET: localhost/port/points/<br>
     </blockquote> 
+  
+   <p>buscar entidade(JSON):</p>
+    <blockquote>
+      GET: localhost/port/points/id<br>
+   </blockquote> 
    
   <p>listar itens (JSON):</p>
    <blockquote>
