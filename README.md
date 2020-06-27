@@ -2,13 +2,13 @@
 
 - O projeto desenvolvido é uma aplicação (backend, frontend) chamada Ecoleta voltada para fins ecológicos.         
 - A aplicação permite a conexão entre ONGs, entidades ou empresas que coletam pilhas, baterias, oleo de cozinha<br>
-  e outros residuos que devem ser descartados de maneira adequada aos cidadãos.<br>
+e outros residuos que devem ser descartados de maneira adequada aos cidadãos.<br>
 
 - O backend em Node.js (typescript) é uma API RESTful que serve os dados para o frontend desenvolvido com ReactJS (typescript).<br>
 
 <h1> Menu </h1>
 
-[iniciando a aplicação](#inciando-aplicacao)<br>
+[iniciando a aplicação](#iniciando-aplicacao)<br>
 [endpoints disponiveis](#endpoints-disponiveis)<br>
 [screenshot e video](#screenshot-video)<br>
 
@@ -17,7 +17,7 @@
 
   Knex.js, express, multer, axios, react-dropzone, react-leaftet
 
-<h2>inciando-aplicacao</h2>
+<h2>iniciando-aplicacao</h2>
 
   - Clonar o repositório next-level-week e extrair seus arquivos em uma pasta.<br>
   - Acessar a pasta server dentro dos arquivos do diretório e executar os comandos:<br>
